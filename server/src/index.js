@@ -8,7 +8,8 @@ app.use(bodyParser.json())
 function serve() {
     app.get('/ohms/:id', async (req, res) => {
         const ohm = await Utils.getOhmById(req.params.id);
-        res.send(ohm);
+        if (!ohm) res.status(404).send({ message: 'Item not found!' }).end();
+        else res.send(ohm);
     })
 
     app.listen(3000, () => console.log('listening on port 3000'));
