@@ -5,26 +5,25 @@
         <h2>Get shocked by the power</h2>
     </div>
 
-    <div>
-      <form @submit.prevent="query">
-          <p>
-              <input id="tracking" type="text" v-model="trackingId" placeholder="Enter your tracking id"/>
-          </p>
-          <p>
-              <button id="formBtn" type="submit">Submit</button>
-          </p>
-          <p>
-              <span v-if="errorMessage">{{ errorMessage }}</span>
-          </p>
-      </form>
-  </div>
+    <ohm-search
+      @found="presentItem"
+      @error="displayError"
+    />
+
+    <p>
+        <span v-if="errorMessage">{{ errorMessage }}</span>
+    </p>
+
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import OhmSearch from './components/OhmSearch';
 
 export default {
+  components: {
+    OhmSearch,
+  },
   data() {
     return {
       trackingId: null,
@@ -32,15 +31,12 @@ export default {
     };
   },
   methods: {
-      async query() {
-        try {
-          const { data } = await axios.get(`/api/ohms/${this.trackingId}`);
-          console.log(data);
-        } catch (error) {
-          console.log(error)
-          this.errorMessage = 'Oops, this website is under construction, please come back later.';
-        }
-      },
+    presentItem() {
+      this.errorMessage = null;
+    },
+    displayError(error) {
+      this.errorMessage = error.message || 'Unknown application error occurred. But no worries, our hamster are already reported';
+    },
   }
 };
 </script>
@@ -70,11 +66,6 @@ h2 {
     padding-bottom: 10px;
     text-align: center;
     font-style: italic;
-}
-
-input {
-    margin: 2em auto 1em;
-    width: 50%;
 }
 p {
     text-align: center;
