@@ -2,22 +2,27 @@
   "name": "web",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "http-server ./app -a localhost -p 8000 -c-1 -P http://localhost:3000",
-    "postupdate-deps": "npm run copy-libs",
-    "postinstall": "npm run copy-libs",
-    "copy-libs": "cpx \"node_modules/{angular,angular-*,bootstrap/dist,jquery/dist}/**/*\" app/lib -C"
+    "dev": "parcel serve ./app/index.html --port 8000",
+    "build": "parcel build ./app/index.html"
   },
   "author": "Urbantz S.A.",
   "license": "ISC",
   "dependencies": {
-    "http-server": "^0.12.3",
     "angular": "^1.7.4",
-    "cpx": "^1.5.0"
+    "axios": "^0.21.1",
+    "cpx": "^1.5.0",
+    "http-server": "^0.12.3",
+    "vue": "^3.1.5"
   },
   "engines": {
     "node": ">=14.17.3"
+  },
+  "devDependencies": {
+    "@parcel/transformer-vue": "^2.0.0-beta.3.1",
+    "parcel": "^2.0.0-beta.3.1"
   }
 }
