@@ -6,7 +6,7 @@
     </div>
 
     <ohm-search
-      @loading="processing = true"
+      @loading="startProcessing"
       @found="presentItem"
       @error="displayError"
     />
@@ -19,7 +19,7 @@
         v-if="item && item.status === 'IN_DELIVERY'"
         :id="item.id"
         class="actions"
-        @updating="processing = true"
+        @updating="startProcessing"
         @updated="presentItem"
       />
     </div>
@@ -48,6 +48,10 @@ export default {
     };
   },
   methods: {
+    startProcessing() {
+      this.processing = true;
+      this.errorMessage = null;
+    },
     presentItem(item) {
       this.processing = false;
       this.errorMessage = null;
