@@ -18,7 +18,12 @@ export default {
   },
   methods: {
       async query() {
+        if (!this.trackingId) {
+          this.$emit('error', { message: 'Please provide tracking id' });
+          return;
+        }
         try {
+          this.$emit('loading');
           const { data } = await axios.get(`/api/ohms/${this.trackingId}`);
           this.$emit('found', data);
         } catch (error) {

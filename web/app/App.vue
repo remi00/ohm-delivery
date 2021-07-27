@@ -6,35 +6,47 @@
     </div>
 
     <ohm-search
+      @loading="loadingStarted"
       @found="presentItem"
       @error="displayError"
     />
 
-    <p>
-        <span v-if="errorMessage">{{ errorMessage }}</span>
-    </p>
+    <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
+    <ohm-spinner v-else-if="loading" class="spinner"/>
+    <ohm-item v-else :item="item" />
 
   </div>
 </template>
 
 <script>
 import OhmSearch from './components/OhmSearch';
+import OhmItem from './components/OhmItem';
+import OhmSpinner from './components/OhmSpinner';
 
 export default {
   components: {
     OhmSearch,
+    OhmItem,
+    OhmSpinner,OhmSpinner
   },
   data() {
     return {
-      trackingId: null,
+      item: null,
       errorMessage: null,
+      loading: false,
     };
   },
   methods: {
-    presentItem() {
+    loadingStarted() {
+      this.loading = true;
+    },
+    presentItem(item) {
+      this.loading = false;
       this.errorMessage = null;
+      this.item = item;
     },
     displayError(error) {
+      this.loading = false;
       this.errorMessage = error.message || 'Unknown application error occurred. But no worries, our hamster are already reported';
     },
   }
@@ -67,9 +79,17 @@ h2 {
     text-align: center;
     font-style: italic;
 }
-p {
+.error {
     text-align: center;
-    margin: auto;
+    margin: 10px auto;
     line-height: 2.0;
+    color: #c00;
+}
+.placeholder {
+  text-align: center;
+  font-size: 40px;
+}
+.spinner {
+  margin-top: 50px;
 }
 </style>
