@@ -13,8 +13,10 @@
       <section v-if="item.history">
         <p>Status history:</p>
         <ul v-if="item.history">
-          <li v-for="({ state, at }) in item.history" :key="state+at">
-            <strong>{{state}}</strong> @ <span>{{formatDate(at)}}</span>
+          <li v-for="({ state, at, reason }) in item.history" :key="state+at">
+            <strong>{{state}}</strong>
+            @
+            <span>{{formatDate(at)}}</span> <span v-if="reason">({{ reason }})</span>
           </li>
         </ul>
       </section>

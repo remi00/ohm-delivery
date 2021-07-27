@@ -6,14 +6,23 @@
     </div>
 
     <ohm-search
-      @loading="loadingStarted"
+      @loading="processing = true"
       @found="presentItem"
       @error="displayError"
     />
 
     <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
-    <ohm-spinner v-else-if="loading" class="spinner"/>
-    <ohm-item v-else :item="item" />
+    <ohm-spinner v-else-if="processing" class="spinner"/>
+    <div v-else>
+      <ohm-item :item="item" />
+      <ohm-delivery-actions
+        v-if="item && item.status === 'IN_DELIVERY'"
+        :id="item.id"
+        class="actions"
+        @updating="processing = true"
+        @updated="presentItem"
+      />
+    </div>
 
   </div>
 </template>
@@ -22,31 +31,30 @@
 import OhmSearch from './components/OhmSearch';
 import OhmItem from './components/OhmItem';
 import OhmSpinner from './components/OhmSpinner';
+import OhmDeliveryActions from './components/OhmDeliveryActions';
 
 export default {
   components: {
     OhmSearch,
     OhmItem,
-    OhmSpinner,OhmSpinner
+    OhmSpinner,
+    OhmDeliveryActions,
   },
   data() {
     return {
       item: null,
       errorMessage: null,
-      loading: false,
+      processing: false,
     };
   },
   methods: {
-    loadingStarted() {
-      this.loading = true;
-    },
     presentItem(item) {
-      this.loading = false;
+      this.processing = false;
       this.errorMessage = null;
       this.item = item;
     },
     displayError(error) {
-      this.loading = false;
+      this.processing = false;
       this.errorMessage = error.message || 'Unknown application error occurred. But no worries, our hamster are already reported';
     },
   }
@@ -91,5 +99,8 @@ h2 {
 }
 .spinner {
   margin-top: 50px;
+}
+.actions {
+  margin-top: 30px;
 }
 </style>
