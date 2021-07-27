@@ -1,8 +1,7 @@
 {
     "ohms": [
       {
-        "id": "0",
-        "trackingId": "1e62adfe",
+        "id": "1e62adfe",
         "status": "IN_DELIVERY",
         "comment": null,
         "description": {
@@ -33,8 +32,7 @@
         ]
       },
       {
-        "id": "1",
-        "trackingId": "1da15ffe",
+        "id": "1da15ffe",
         "status": "CREATED",
         "comment": null,
         "description": {
