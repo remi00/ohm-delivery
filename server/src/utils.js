@@ -1,6 +1,6 @@
 const low = require('lowdb');
 const FileAsync = require('lowdb/adapters/FileAsync');
-const adapter = new FileAsync('db.json');
+const adapter = new FileAsync('../persistence/db.json');
 const config = require('../db.config.json');
 
 const db = (async () => {
@@ -10,12 +10,12 @@ const db = (async () => {
 })()
 
 async function getOhmById(id) {
-    const _db = await db;
-    const ohm = _db.get('ohms')
-        .find({ id })
-        .value()
+  const _db = await db;
+  const ohm = _db.get('ohms')
+      .find({ id })
+      .value()
 
-    return ohm;
+  return ohm;
 }
 
 module.exports = { getOhmById }
